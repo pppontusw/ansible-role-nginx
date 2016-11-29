@@ -6,17 +6,14 @@
     group: "{{nginx_group}}"
     mode: 0600
     setype: httpd_config_t
-  when: nginx_proxy_ssl_store_path is defined
 
 - name: check if dhparams are generated
   stat: 
     path: "{{nginx_proxy_ssl_store_path}}/dhparams.pem"
   register: st
-  when: nginx_proxy_ssl_store_path is defined
 
 - name: generate dhparams
   shell: 'openssl dhparam -out {{nginx_proxy_ssl_store_path}}/dhparams.pem {{dh_size}}'
-  when: st.stat.exists == False and nginx_proxy_ssl_store_path is defined
   notify:
   - restart nginx
 
@@ -30,7 +27,6 @@
     setype: httpd_config_t
   notify:
   - restart nginx
-  when: nginx_proxy_ssl_store_path is defined
 
 - name: copy ssl-certificates and keys
   copy:
@@ -41,6 +37,5 @@
     mode: 0600
     setype: httpd_config_t
   with_items: "{{nginx_copy_ssl|default([])}}"
-  when: nginx_proxy_ssl_store_path is defined
   notify:
     - restart nginx
