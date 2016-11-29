@@ -1,0 +1,32 @@
+# This is quite an extensive list of variables you can set in order to create all the virtual sites, copy certificates etc.
+# You probably do not want to manage this in the defaults/main file but rather copy this into your group_vars or host_vars
+# and then comment out everything here or remove the defaults file altogether as it is really only here to show all the options
+
+# some defaults
+nginx_path: /etc/nginx
+nginx_process_name: nginx
+nginx_pkg_name: nginx
+#nginx_user: www-data
+#nginx_group: www-data
+
+dh_size: 2048
+
+# define path to store certificates
+nginx_ssl_store_path: '/ssl'
+
+firewalld_open_ports:
+  - 80
+  - 443
+
+#nginx_copy_ssl:
+#  - name: fullchain.pem
+#    content: "certhere"
+#  - name: priv.key
+#    content: "keyhere"
+
+#nginx_fail2ban: yes
+
+#nginx_vhosts:
+#  - name: test
+#    content: |
+#     nginx_full_vhost

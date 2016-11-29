@@ -1,0 +1,45 @@
+- name: create ssl base folder
+  file: 
+    path: "{{nginx_proxy_ssl_store_path}}" 
+    state: directory
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0600
+    setype: httpd_config_t
+  when: nginx_proxy_ssl_store_path is defined
+
+- name: check if dhparams are generated
+  stat: 
+    path: "{{nginx_proxy_ssl_store_path}}/dhparams.pem"
+  register: st
+
+- name: generate dhparams
+  shell: 'openssl dhparam -out {{nginx_proxy_ssl_store_path}}/dhparams.pem {{dh_size}}'
+  when: st.stat.exists == False and nginx_proxy_ssl_store_path is defined
+  notify:
+  - restart nginx
+
+- name: chown dhparams
+  file: 
+    path: "{{nginx_proxy_ssl_store_path}}/dhparams.pem" 
+    state: file
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0600
+    setype: httpd_config_t
+  notify:
+  - restart nginx
+  when: nginx_proxy_ssl_store_path is defined
+
+- name: copy ssl-certificates and keys
+  copy:
+    content: "{{ item.content }}"
+    dest: "{{nginx_proxy_ssl_store_path}}/{{ item.name }}"
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0600
+    setype: httpd_config_t
+  with_items: "{{nginx_copy_ssl|default([])}}"
+  when: nginx_proxy_ssl_store_path is defined
+  notify:
+    - restart nginx
