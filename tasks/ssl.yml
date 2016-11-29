@@ -16,7 +16,7 @@
 
 - name: generate dhparams
   shell: 'openssl dhparam -out {{nginx_proxy_ssl_store_path}}/dhparams.pem {{dh_size}}'
-  when: st is defined and st.stat.exists == False
+  when: (st is defined) and (st.stat.exists == False)
   notify:
   - restart nginx
 
