@@ -17,6 +17,7 @@
 
 - include: ssl.yml
   become: yes
+  when: nginx_proxy_ssl_store_path is defined
 
 - name: ensure service is enabled and started
   service: 
