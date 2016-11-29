@@ -12,11 +12,10 @@
   stat: 
     path: "{{nginx_proxy_ssl_store_path}}/dhparams.pem"
   register: st
-  when: nginx_proxy_ssl_store_path is defined
 
 - name: generate dhparams
   shell: 'openssl dhparam -out {{nginx_proxy_ssl_store_path}}/dhparams.pem {{dh_size}}'
-  when: (st is defined) and (st.stat.exists == False)
+  when: (nginx_proxy_ssl_store_path is defined) and (st.stat.exists == False)
   notify:
   - restart nginx
 
