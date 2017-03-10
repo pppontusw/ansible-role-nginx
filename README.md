@@ -3,7 +3,7 @@
 ## What does it do?
 
 1. Installs Nginx
-2. Creates an SSL certificate and DH parameter store location as defined in {{nginx_proxy_ssl_store_path}}
+2. Creates an SSL certificate and DH parameter store location as defined in {{nginx_ssl_store_path}}
 3. Generates secure DHparams (2048)
 4. Copies all the SSL certificates and keys defined in ssl sites to your SSL store
 5. Copies the custom Nginx configuration with only secure ciphers
