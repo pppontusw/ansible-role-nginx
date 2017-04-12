@@ -5,10 +5,11 @@
     owner: "{{nginx_user}}"
     group: "{{nginx_group}}"
     mode: 0644
+    validate: 'nginx -tc %s'
   with_items:
     - nginx.conf
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: create sites-enabled folder
   file: 
@@ -35,7 +36,7 @@
     mode: 0644
   with_items: "{{nginx_vhosts|default([])}}"
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: create vhosts symlinks
   file: 
@@ -47,7 +48,7 @@
     mode: 0644
   with_items: "{{nginx_vhosts|default([])}}"
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: make sure the default site is not there
   file:
@@ -55,7 +56,7 @@
     state: absent
   become: yes
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: configure fail2ban for nginx
   copy:

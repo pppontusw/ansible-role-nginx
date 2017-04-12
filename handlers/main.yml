@@ -2,6 +2,10 @@
   service: "name={{ nginx_process_name }} state=restarted"
   become: yes
 
+- name: reload nginx
+  shell: nginx -s reload
+  become: yes
+
 - name: restart firewalld
   service: "name=firewalld state=restarted"
   become: yes
