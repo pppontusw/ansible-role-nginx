@@ -57,6 +57,12 @@
   become: yes
   notify:
     - reload nginx
+  register: isdefault
+
+- name: reload nginx
+  shell: nginx -s reload
+  become: yes
+  when: isdefault.changed
 
 - name: configure fail2ban for nginx
   copy:
