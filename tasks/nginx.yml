@@ -27,6 +27,11 @@
     group: "{{nginx_group}}"
     mode: 0644
 
+- name: make rules directory
+  file:
+    path: "{{nginx_path}}/rules"
+    state: directory
+
 - name: copy other useful config files
   copy:
     src: files/{{item}}
