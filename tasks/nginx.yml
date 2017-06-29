@@ -30,7 +30,7 @@
 - name: copy other useful config files
   copy:
     src: files/{{item}}
-    dest: "{{nginx_path}}/{{item}}"
+    dest: "{{nginx_path}}/rules/{{item}}"
     owner: "{{nginx_user}}"
     group: "{{nginx_group}}"
     mode: 0644
