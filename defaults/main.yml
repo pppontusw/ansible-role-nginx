@@ -12,7 +12,7 @@ nginx_pkg_name: nginx
 dh_size: 2048
 
 # define path to store certificates
-#nginx_ssl_store_path: '/ssl'
+nginx_ssl_store_path: '/ssl'
 #
 #firewalld_open_ports:
 #  - 80

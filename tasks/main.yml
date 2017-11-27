@@ -12,12 +12,12 @@
   user: name={{nginx_user}} groups={{nginx_group}} state=present
   become: yes
 
-- include: nginx.yml
-  become: yes
-
 - include: ssl.yml
   become: yes
   when: nginx_ssl_store_path is defined
+
+- include: nginx.yml
+  become: yes
 
 - name: ensure service is enabled and started
   service: 
